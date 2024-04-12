@@ -130,6 +130,23 @@ void monitorDisk(UsageStats& diskStats, stringstream& dataStream) {
     }
 }
 
+string formatTime(long long seconds) {
+    long long hours = seconds / 3600;
+    long long minutes = (seconds % 3600) / 60;
+    long long secs = seconds % 60;
+
+    stringstream ss;
+    if (hours > 0) {
+        ss << hours << "h ";
+    }
+    if (minutes > 0) {
+        ss << minutes << "m ";
+    }
+    ss << secs << "s";
+
+    return ss.str();
+}
+
 string getCurrentTimestamp() {
     char buffer[80];
     time_t rawtime;
@@ -166,11 +183,12 @@ int main() {
         dataStream.str("");
 
         auto currentTime = chrono::steady_clock::now();
-        auto elapsedTime = chrono::duration_cast<chrono::seconds>(currentTime - startTime).count();
+        auto elapsedTimeSeconds = chrono::duration_cast<chrono::seconds>(currentTime - startTime).count();
+        string elapsedTimeFormatted = formatTime(elapsedTimeSeconds);
 
         dataStream << "LIVE RESMON :->" << endl;
         dataStream << "Timestamp: " << getCurrentTimestamp() << endl;
-        dataStream << "Running Time: " << elapsedTime << " seconds" << endl << "\n";
+        dataStream << "Running Time: " << elapsedTimeFormatted << endl << "\n";
         dataStream << "Current CPU Usage: " << cpuStats.currentUsage << "%" << endl;
         dataStream << "Max CPU Usage: " << cpuStats.maxUsage << "%" << endl;
         dataStream << "Average CPU Usage: " << (cpuStats.totalUsage / cpuStats.count) << "%" << endl;
