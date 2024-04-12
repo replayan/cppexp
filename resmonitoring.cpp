@@ -155,6 +155,8 @@ int main() {
     UsageStats ramStats = {0.0, 0.0, 0.0, 0};
     UsageStats diskStats = {0.0, 0.0, 0.0, 0};
 
+    auto startTime = chrono::steady_clock::now();
+
     thread cpuThread(monitorCPU, ref(cpuStats), ref(dataStream));
     thread ramThread(monitorRAM, ref(ramStats), ref(dataStream));
     thread diskThread(monitorDisk, ref(diskStats), ref(dataStream));
@@ -163,8 +165,12 @@ int main() {
         // Clear the stringstream
         dataStream.str("");
 
+        auto currentTime = chrono::steady_clock::now();
+        auto elapsedTime = chrono::duration_cast<chrono::seconds>(currentTime - startTime).count();
+
         dataStream << "LIVE RESMON :->" << endl;
         dataStream << "Timestamp: " << getCurrentTimestamp() << endl;
+        dataStream << "Running Time: " << elapsedTime << " seconds" << endl << "\n";
         dataStream << "Current CPU Usage: " << cpuStats.currentUsage << "%" << endl;
         dataStream << "Max CPU Usage: " << cpuStats.maxUsage << "%" << endl;
         dataStream << "Average CPU Usage: " << (cpuStats.totalUsage / cpuStats.count) << "%" << endl;
