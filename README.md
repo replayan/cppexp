@@ -13,7 +13,7 @@ This project is a C++ resource monitoring application that tracks CPU, RAM, and 
 
 ## Demo Video
 
-[Watch Demo Video](https://github.com/replayan/cppexp/assets/86905096/f9ae1471-1850-4ca2-a6a5-4b9a5ee72c46)
+[Watch Demo Video](https://github.com/replayan/cppexp/assets/86905096/652ac45b-5bb9-43ac-a5c6-5b68a696f960)
 
 ## Usage
 
